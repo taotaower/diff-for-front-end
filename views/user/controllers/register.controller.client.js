@@ -59,12 +59,14 @@
                 .then(checkUser);
 
             function checkUser(user) {
-                if (user) {
+                console.log("checkUser", user);
+                if (user.length > 0) {
                     vm.error1 = "Sorry, the username you just picked is already taken.";
                 } else {
-                    var newUser = {
+                    let newUser = {
                         username: username,
-                        password: password
+                        password: password,
+                        role: "MEMBER",
                     };
 
                     userService

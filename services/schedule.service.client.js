@@ -12,8 +12,10 @@
         this.deleteSchedule = deleteSchedule;
         this.createSchedule = createSchedule;
         this.updateSchedule = updateSchedule;
-        this.addFlight = addFlight;
+        this.addFlightIntoSchedule = addFlightIntoSchedule;
         this.deleteFlight = deleteFlight;
+        this.findAllSchedulesForChecker = findAllSchedulesForChecker;
+        this.findAllSchedulesForCrew = findAllSchedulesForCrew;
 
         function findAllSchedulesForUser (userId) {
             var url = "/api/user/" + userId + "/schedule";
@@ -22,6 +24,26 @@
                 .then(function (response) {
                     return response.data;
                 });
+        }
+
+        function findAllSchedulesForChecker(id){
+            let url = "/api/schedules/checker/" + id;
+            return $http
+                .get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+
+        }
+
+        function findAllSchedulesForCrew(id){
+            let url = "/api/schedules/crew/" + id;
+            return $http
+                .get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+
         }
 
         function findScheduleById (scheduleId) {
@@ -51,8 +73,9 @@
                 });
         }
 
-        function createSchedule (userId, flightId, schedule) {
-            var url = "/api/schedule/" + userId + "/" + flightId;
+        function createSchedule (schedule) {
+            console.log(schedule,"scheduleModel.create(schedule)");
+            var url = "/api/schedule/createSchedule";
             return $http
                 .post(url, schedule)
                 .then(function (response) {
@@ -69,7 +92,7 @@
                 });
         }
 
-        function addFlight (scheduleId, flightId) {
+        function addFlightIntoSchedule (scheduleId, flightId) {
             var url = "/api/schedule/" + scheduleId + "/" + flightId;
             return $http
                 .post(url)

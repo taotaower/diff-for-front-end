@@ -7,26 +7,15 @@
 
         var vm = this;
 
-        // vm.uid = $routeParams['uid'];
-
         vm.uid = currentUser._id;
         vm.user = currentUser;
-        vm.user.dateOfBirth = new Date(vm.user.dateOfBirth);
+        vm.user.date_of_birth = new Date(vm.user.date_of_birth);
 
         vm.updateUser = updateUser;
         vm.deleteUser = deleteUser;
         vm.logout = logout;
         vm.unregister = unregister;
 
-        // vm.user = userService.findUserById(vm.uid);
-        // userService
-        //     .findUserById(vm.uid)
-        //     .then(renderUser);
-
-        // function init () {
-        //     renderUser(currentUser);
-        // }
-        // init();
 
         function updateUser (userId, user) {
             vm.error = null;

@@ -171,15 +171,5 @@
         }
 
 
-        // $http({
-        //     url: "https://api.lufthansa.com/v1/oauth/token" ,
-        //     method: 'POST',
-        //     data: {
-        //         client_id: "4z82uenx87gw8agtm4gz569k",
-        //         client_secret: "4HaRYWyzBg",
-        //         grant_type: "client_credentials"
-        //     }
-        // });
-
     }
 })();

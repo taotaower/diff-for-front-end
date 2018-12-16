@@ -1,0 +1,117 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+
+<br>
+<div class="container">
+    <h2>Lufthansa Staff Page</h2>
+    <h4>Welcome {{vm.user.duty}} {{vm.user.first_name}}</h4>
+
+    <div class="container-fluid" ng-show="vm.checkinPassengerShow">
+        <h2>Check-in Passengers</h2>
+        <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <div class="row">
+                    <div class = "col-sm-2">User ID (Last 10 chars)</div>
+                    <div class = "col-sm-2">Username</div>
+                    <div class = "col-sm-1">First Name</div>
+                    <div class = "col-sm-1">Last Name</div>
+                    <div class = "col-sm-2">Passport Number</div>
+                    <div class = "col-sm-1">Check in</div>
+                    <div></div>
+                </div>
+            </li>
+            <div ng-repeat="reservation in vm.reservations">
+            <li class="list-group-item"  ng-hide="reservation.passenger.check_in">
+                <div class="row">
+                    <div class="hidden-xs col-sm-2">
+                        {{reservation.passenger._id.slice(-10)}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{reservation.passenger.username}}
+                    </div>
+                    <div class="col-sm-1">
+                        {{reservation.passenger.first_name}}
+                    </div>
+                    <div class="col-sm-1">
+                        {{reservation.passenger.last_name}}
+                    </div>
+                    <div class="col-sm-2">
+                        {{reservation.passenger.passport_number}}
+                    </div>
+                    <div class="col-sm-1">
+                        <span class="btn btn-success" ng-click="vm.checkinPassenger(reservation.passenger._id)"> Check-In</span>
+                    </div>
+                </div>
+            </li>
+            </div>
+        </ul>
+        <a ng-click="vm.init()" class="btn btn-delete">Back</a>
+    </div>
+
+
+    <ul class="list-group" ng-hide="vm.checkinPassengerShow">
+        <li class="list-group-item active">
+            My Schedule
+        </li>
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <div class="row">
+                    <div class="hidden-xs col-sm-3 col-lg-3">
+                        Schedule ID (Last 10 chars)
+                    </div>
+                    <div class="hidden-xs col-sm-2">
+                        Time of Departure
+                    </div>
+                    <div class="col-sm-1">
+                        Depart Terminal
+                    </div>
+                    <div class="col-sm-1">
+                        Depart Gate
+                    </div>
+                    <div class="col-sm-1">
+                        Flight Number
+                    </div>
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-2">
+
+                    </div>
+                </div>
+            </li>
+            <li ng-repeat="schedule in vm.schedules" class="list-group-item">
+                <div class="row">
+                    <div class="hidden-xs col-sm-3 col-lg-3 ID">
+                        {{schedule._id.slice(-10)}}
+                    </div>
+                    <div class="hidden-xs col-xs-2">
+                        {{schedule.flight.departure_scheduled_time | date:'yyyy-MM-dd'}}
+                    </div>
+
+                    <div class="hidden-xs col-xs-1">
+                        {{schedule.flight.departure_terminal}}
+                    </div>
+                    <div class="hidden-xs col-xs-1">
+                        {{schedule.flight.departure_gate === undefined ? "On Time" : flight.departure_gate}}
+                    </div>
+
+                    <div class="col-xs-1">
+                        <span class="label label-primary">{{schedule.flight.marketing_carrier}}{{schedule.flight.marketing_flight_number}}</span>
+                    </div>
+
+                    <div class="col-xs-3" ng-show="vm.user.duty === 'TICKET_CHECKER'">
+                        <a ng-click="vm.checkinPassengerAction(schedule.flight._id)" class="btn btn-success btn-block">
+                            Check In Passengers
+                        </a>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+    </ul>
+
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

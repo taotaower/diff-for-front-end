@@ -52,7 +52,8 @@
                 controller: 'AdminBookingController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkAdmin
+                    currentUser: checkAdmin,
+                    getToken: getToken
                 }
             })
             .when('/admin/schedule', {
@@ -66,6 +67,15 @@
             .when('/admin/flight', {
                 templateUrl: 'views/admin/templates/admin-flights.view.client.html',
                 controller: 'AdminFlightController',
+                controllerAs: 'vm',
+                resolve: {
+                    currentUser: checkAdmin,
+                    getToken: getToken
+                }
+            })
+            .when('/staff',{
+                templateUrl: 'views/staff/templates/staff.view.client.html',
+                controller: 'StaffViewController',
                 controllerAs: 'vm',
                 resolve: {
                     currentUser: checkLoggedIn
@@ -87,20 +97,13 @@
                     currentUser: checkLoggedIn
                 }
             })
-            .when('/chat_with/:username', {
-                templateUrl: 'views/message/templates/message.view.client.html',
-                controller: 'MessageController',
-                controllerAs: 'vm',
-                resolve: {
-                    currentUser: checkLoggedIn
-                }
-            })
             .when('/booking/new', {
                 templateUrl: 'views/booking/templates/booking-new.view.client.html',
                 controller: 'NewBookingController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedIn
+                     currentUser: checkLoggedInWithAnonymous,
+                     getToken: getToken
                 }
             })
             .when('/booking/new/:origin/:destination', {
@@ -108,15 +111,8 @@
                 controller: 'NewBookingController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedIn
-                }
-            })
-            .when('/booking/new/:username/:food/:lounge', {
-                templateUrl: 'views/booking/templates/booking-new.view.client.html',
-                controller: 'NewBookingController',
-                controllerAs: 'vm',
-                resolve: {
-                    currentUser: checkAdmin
+                     currentUser: checkLoggedIn,
+                     getToken: getToken
                 }
             })
             .when('/booking', {
@@ -132,7 +128,7 @@
                 controller: 'EditBookingController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedIn
+                    currentUser: checkLoggedInWithAnonymous
                 }
             })
             .when('/schedule', {
@@ -156,7 +152,8 @@
                 controller: 'FlightInformationController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedInWithAnonymous
+                    currentUser: checkLoggedInWithAnonymous,
+                    getToken: getToken
                 }
             })
             .when('/operations/flightstatus', {
@@ -164,7 +161,8 @@
                 controller: 'FlightInformationController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedInWithAnonymous
+                    currentUser: checkLoggedInWithAnonymous,
+                    getToken: getToken
                 }
             })
             .when('/operations/flightstatus/:flightNumber/:date', {
@@ -172,7 +170,8 @@
                 controller: 'FlightStatusController',
                 controllerAs: 'vm',
                 resolve: {
-                    currentUser: checkLoggedInWithAnonymous
+                    currentUser: checkLoggedInWithAnonymous,
+                    getToken: getToken
                 }
             })
     }
@@ -232,7 +231,6 @@
             .then(function (user) {
                 if(user === '0') {
                     deferred.resolve({});
-                    // $location.url('/login');
                 } else {
                     deferred.resolve(user);
                 }
@@ -240,4 +238,12 @@
 
         return deferred.promise;
     }
+
+    function getToken(){
+        return token;
+    }
 })();
+
+
+let token = "7ppasdga8b6hya57389wvcfn";
+

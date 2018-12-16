@@ -2,10 +2,8 @@
 
 <div class="container">
 
-    <h2 ng-show="vm.other_username">Book flights for {{vm.other_username}}</h2>
-    <h2 ng-show="!vm.other_username">Book your flights</h2>
-
-
+    <div ng-hide="vm.startBooking || vm.bookingSuccess || vm.bookingFail">
+<div class="booking-page" ng-hide="vm.confirmation" >
     <div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
     <div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
     <div ng-show="vm.error3" class="alert alert-danger">{{vm.error3}}</div>
@@ -72,13 +70,132 @@
                 <td><h5>{{schedule.TotalJourney.Duration.slice(2)}}</h5></td>
                 <td><h5>{{schedule.Flight.Equipment.AircraftCode}}</h5></td>
                 <td><h4>${{schedule.price}}</h4></td>
-                <td><a ng-click="vm.createBooking(vm.uid, schedule)"
+                <!--<td><a ng-click="vm.createBooking(vm.uid, schedule)"-->
+                       <!--class="btn btn-block btn-primary">Book Now</a></td>-->
+
+                <td><a ng-click="vm.prepBooking(schedule)"
                        class="btn btn-block btn-primary">Book Now</a></td>
+
 
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<div class="confirmation-page" ng-show="vm.confirmation">
+    <h3 ng-hide="vm.isAnonymousUser" >Please Confirm/Update Your Passenger Information(You can book flight for others)</h3>
+    <h3 ng-show="vm.isAnonymousUser">Please Create Your Passenger Information</h3>
+    <div>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <div class="row">
+                        <div class="hidden-xs col-sm-2">
+                            Flight Price
+                        </div>
+                        <div class="col-sm-2">
+                            Depart Airport
+                        </div>
+                        <div class="col-sm-3">
+                            Depart Time
+                        </div>
+                        <div class="col-sm-2">
+                            Arrival Airport
+                        </div>
+                        <div class="col-sm-3">
+                            Arrival Time
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="hidden-xs col-sm-2">
+                            ${{vm.flight_price}}
+                        </div>
+                        <div class="col-sm-2">
+                            {{vm.flight.departure_airport}}
+                        </div>
+                        <div class="col-sm-3">
+                            {{vm.flight.departure_scheduled_time}}
+                        </div>
+                        <div class="col-sm-2">
+                            {{vm.flight.arrival_airport}}
+                        </div>
+                        <div class="col-sm-3">
+                            {{vm.flight.arrival_scheduled_time}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    <form>
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input ng-model="vm.passenger.email"
+                   type="email"
+                   class="form-control" id="email" placeholder="alice@wonderland.com">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input ng-model="vm.passenger.phone"
+                   type="text"
+                   class="form-control" id="phone" placeholder="012-345-6789">
+        </div>
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input ng-model="vm.passenger.first_name"
+                   type="text"
+                   class="form-control" id="first-name" placeholder="Alice">
+        </div>
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input ng-model="vm.passenger.last_name"
+                   type="text"
+                   class="form-control" id="last-name" placeholder="Wonderland">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input ng-model="vm.passenger.date_of_birth"
+                   type="date"
+                   class="form-control"
+                   id="dob">
+        </div>
+
+        <div class="form-group">
+            <label for="passport">Passport Number</label>
+            <input ng-model="vm.passenger.passport_number"
+                   type="text"
+                   class="form-control"
+                   id="passport"
+                   placeholder="X1234567">
+        </div>
+    </form>
+    </div>
+
+    <br>
+    <a class="btn btn-primary btn-block" ng-click="vm.createBooking()">Book!</a>
+
+</div>
+    </div>
+
+<div ng-show="vm.startBooking &&  !vm.bookingSuccess && !vm.bookingFail">
+    <h1>We Are Making a Reservation For You :)</h1>
+</div>
+
+<div ng-show="vm.bookingSuccess">
+    <h1>You successfully made a reservation :)</h1>
+    <a class="btn btn-primary btn-block" ng-click="vm.resetBookingPage()">Book a New One</a>
+    <div ng-hide="vm.isAnonymousUser">
+    <a class="btn btn-success btn-block" ng-click="vm.checkReservation()">Check Reservations</a>
+    </div>
+</div>
+<div ng-show="vm.bookingFail">
+    <h1>Something wrong, we cannot make a reservation this time :(</h1>
+    <a class="btn btn-primary btn-block" ng-click="vm.resetBookingPage()">Book a New One</a>
+</div>
+</div>
+
+
 
 <div ng-include="'views/common/footer.view.client.html'"></div>

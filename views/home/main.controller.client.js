@@ -4,7 +4,8 @@
         .controller('MainController', MainController);
 
     function MainController(currentUser, userService) {
-        var vm = this;
+        console.log("currentUser", currentUser);
+        const vm = this;
         vm.user = currentUser;
         vm.logout = logout;
         vm.url = window.location.href.split('#!')[1];

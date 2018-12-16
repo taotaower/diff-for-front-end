@@ -26,46 +26,44 @@
         </div>
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input ng-model="vm.user.firstName"
+            <input ng-model="vm.user.first_name"
                    type="text"
                    class="form-control" id="first-name" placeholder="Alice">
         </div>
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input ng-model="vm.user.lastName"
+            <input ng-model="vm.user.last_name"
                    type="text"
                    class="form-control" id="last-name" placeholder="Wonderland">
         </div>
         <div class="form-group">
             <label for="dob">Date of Birth</label>
-            <input ng-model="vm.user.dateOfBirth"
+            <input ng-model="vm.user.date_of_birth"
                    type="date"
                    class="form-control"
                    id="dob">
         </div>
+
+        <div class="form-group">
+            <label for="passport">Passport Number</label>
+            <input ng-model="vm.user.passport_number"
+                   type="text"
+                   class="form-control"
+                   id="passport"
+                   placeholder="X1234567">
+        </div>
     </form>
 
-    <div class="row">
-        <div class="col-xs-6">
-            <label for="chat">Chat with</label>
-            <input ng-model="vm.chatWith" type="text" class="form-control" id="chat" placeholder="e.g. admin">
-        </div>
-        <div class="col-xs-6">
-            <label>Confirm and go</label>
-            <a href="#!/chat_with/{{vm.chatWith}}" class="btn btn-info btn-block">Go</a>
-        </div>
-    </div>
-
     <br>
-    <a class="btn btn-primary btn-block" ng-show="vm.user.roles.indexOf('ADMIN')<=-1 && vm.user.roles.indexOf('CREW')<=-1"
-       href="#!/booking">View your bookings</a>
-    <a class="btn btn-info btn-block" ng-show="vm.user.roles.indexOf('CREW')>-1"
+    <a class="btn btn-primary btn-block"
+       href="#!/booking">View your reservations</a>
+    <a class="btn btn-info btn-block" ng-show="vm.user.role === 'STAFF' && (vm.user.duty === 'TICKET_CHECKER' || vm.user.duty === 'CREW' )"
        href="#!/schedule">View your schedules</a>
-    <a class="btn btn-primary btn-block" ng-show="vm.user.roles.indexOf('ADMIN')>-1"
+    <a class="btn btn-primary btn-block" ng-show="vm.user.role === 'ADMIN'"
        href="#!/admin">Administration Page</a>
     <a class="btn btn-success btn-block"
        ng-click="vm.updateUser(vm.uid, vm.user)">Update</a>
-    <a class="btn btn-delete btn-block" ng-show="vm.user.roles.indexOf('ADMIN')<=-1"
+    <a class="btn btn-delete btn-block" ng-show="vm.user.role === 'MEMBER'"
        ng-click="vm.unregister()">Unregister</a>
     <a class="btn btn-danger  btn-block"
        ng-click="vm.logout()">Logout</a>

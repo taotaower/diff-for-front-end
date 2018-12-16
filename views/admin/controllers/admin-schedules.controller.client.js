@@ -4,28 +4,111 @@
         .controller('AdminScheduleController', adminScheduleController);
 
     function adminScheduleController(scheduleService, currentUser, flightService, userService) {
-        var vm = this;
+        let vm = this;
 
         vm.user = currentUser;
         vm.url = window.location.href.split('#!')[1];
+        vm.carrier_code= "";
+        vm.flight_number= "";
+        vm.allSchedules= {};
 
         vm.createSchedule = createSchedule;
         vm.deleteSchedule = deleteSchedule;
-        vm.selectSchedule = selectSchedule;
-        vm.updateSchedule = updateSchedule;
         vm.findAllCrew = findAllCrew;
         vm.findAllFlights = findAllFlights;
         vm.selectCrew = selectCrew;
         vm.selectFlight = selectFlight;
+        vm.selectFlightAction = selectFlightAction;
+        vm.createScheduleAction = createScheduleAction;
         vm.logout = logout;
+        vm.init = init;
+        vm.checkCrew = checkCrew;
+        vm.checkChecker = checkChecker;
+        vm.submitSchedule = submitSchedule;
+        vm.showStaff = showStaff;
+        vm.filterSchedules = filterSchedules;
 
 
         function init() {
             findAllSchedules();
             findAllCrew();
+            findAllTicketCheckers();
             findAllFlights();
+            vm.createScheduleFlag = false;
+            vm.updateScheduleFlag = false;
+            vm.selectstaff = false;
+            vm.selectedCrews = {};
+            vm.selectedCheckers = {};
+            vm.showStaffFlag = false;
+            vm.showCrews = {};
+            vm.showCheckers = {};
+            vm.carrier_code= "";
+            vm.flight_number= "";
+
+
         }
         init();
+
+        function filterSchedules(){
+            let schedules = vm.allSchedules;
+            let newSchedules = {};
+            Object.keys(schedules).forEach(function(key) {
+                if (schedules[key].flight.marketing_carrier === vm.carrier_code
+                    || schedules[key].flight.marketing_flight_number === vm.flight_number){
+                    newSchedules[key] = schedules[key]
+                }
+            });
+            vm.schedules = newSchedules;
+
+        }
+
+        function submitSchedule(){
+            let schedule = {
+                crews:Object.keys(vm.selectedCrews),
+                ticket_checkers: Object.keys(vm.selectedCheckers),
+                flight: vm.selectedFlight,
+            };
+
+            scheduleService
+                .createSchedule(schedule)
+                .then(res=> {
+                    console.log(res);
+                        init();
+                },
+                    err =>{
+                    console.log(err)
+                    })
+        }
+
+        function checkCrew(crewId){
+            if (vm.selectedCrews[crewId] === undefined ){
+                vm.selectedCrews = {...vm.selectedCrews, [crewId]: crewId}
+            }else{
+                delete vm.selectedCrews[crewId]
+            }
+
+        }
+
+        function checkChecker(checkerId){
+            if (vm.selectedCheckers[checkerId] === undefined ){
+
+                vm.selectedCheckers = {...vm.selectedCheckers, [checkerId]:checkerId}
+            }else{
+                console.log(checkerId,"checkerId");
+                delete vm.selectedCheckers[checkerId]
+            }
+
+        }
+        function createScheduleAction(){
+            vm.createScheduleFlag = true;
+            vm.selectstaff = false;
+        }
+
+        function selectFlightAction(flight){
+            vm.selectedFlight = flight;
+            vm.selectstaff = true;
+            vm.createScheduleFlag = false;
+        }
 
         function createSchedule(username, flight) {
             userService
@@ -57,116 +140,51 @@
         }
 
         function deleteSchedule(schedule) {
-            vm.selected = false;
             scheduleService
-                .deleteSchedule(schedule._id)
+                .deleteSchedule(schedule)
                 .then(init);
         }
 
-        function selectSchedule(schedule, index) {
-            vm.selected = true;
-            vm.schedule = angular.copy(schedule);
-
-            vm._flight = angular.copy(vm.flights[index][0]);
-            vm._flight.carrier_flight_number = vm.flights[index][0].marketing_carrier + vm.flights[index][0].marketing_flight_number;
-            vm._flight.departure_scheduled_time = new Date(vm.flights[index][0].departure_scheduled_time);
-
-            vm._user = angular.copy(vm.users[index]);
-        }
-
-        function updateSchedule(schedule, newCrewUsername, departureTime, carrierFlightNumber) {
-            vm.selected = false;
-            scheduleId = schedule._id;
-
-            carrier = carrierFlightNumber.slice(0,2);
-            flightNumber = carrierFlightNumber.slice(2);
-
-
-            userService
-                .deleteSchedule(scheduleId)
-                .then(function() {
-
-                    flightService
-                        .deleteSchedule(scheduleId)
-                        .then(function() {
-
-                            userService
-                                .findUserByUsername(newCrewUsername)
-                                .then(function (newCrew){
-
-                                    flightService
-                                        .findFlightByFlightInfo(carrier, flightNumber, departureTime)
-                                        .then(function (newFlight){
-                                            var newSchedule = {
-                                                _user: newCrew._id,
-                                                flights: [newFlight._id]
-                                            };
-
-                                            userService
-                                                .addSchedule(newCrew._id, scheduleId)
-                                                .then(function () {
-
-                                                    flightService
-                                                        .addSchedule(newFlight._id, scheduleId)
-                                                        .then(function () {
-
-                                                            scheduleService
-                                                                .updateSchedule(scheduleId, newSchedule)
-                                                                .then(init);
-                                                        });
-                                                });
-
-
-                                        });
-
-                                });
-                        });
-                });
-        }
 
         function findAllSchedules() {
             scheduleService
                 .findAllSchedules()
                 .then(function (schedules) {
                     vm.schedules = schedules;
+                    vm.allSchedules = schedules;
 
-                    vm.flights = [];
-                    loadFlights(vm.schedules);
 
-                    vm.users = [];
-                    loadUsers(vm.schedules);
                 });
         }
 
-        function loadFlights (schedules) {
-            for (var s in schedules) {
-                // subflights = [];
-                // for (var f in schedules[s].flights) {
-                flightService
-                    .findFlightById(schedules[s].flights[0])
-                    .then(function (flight) {
-                        // subflights.push(flight);
-                        vm.flights.push([flight]);
-                    });
-                // }
-            }
+        function showStaff(crews, checkers){
+            vm.showCrews = crews;
+            vm.showCheckers = checkers;
+            vm.showStaffFlag = true;
+            console.log("vm.showCrews",vm.showCrews);
+            console.log("vm.showCheckers",vm.showCheckers);
+
         }
 
-        function loadUsers (schedules) {
-            for (var s in schedules) {
-                userService
-                    .findUserById(schedules[s]._user)
-                    .then(function (_user) {
-                        vm.users.push(_user);
-                    });
-            }
-        }
         function findAllCrew () {
             userService
                 .findAllCrew()
-                .then(function (crew) {
-                    vm.crew = crew;
+                .then(function (crews) {
+                    vm.crews = crews;
                 });
+        }
+
+        function findAllTicketCheckers(){
+            userService
+                .findAllTicketCheckers()
+                .then(
+                    checkers => {
+                        vm.checkers = checkers;
+                    },
+                    err => {
+                        console.log(err);
+                    }
+                )
         }
 
         function findAllFlights () {

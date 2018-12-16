@@ -6,84 +6,96 @@
     <ul class="list-group">
         <li class="list-group-item active">
             <div class="row">
-                <div class="hidden-xs col-sm-3 col-lg-2">
+                <div class="hidden-xs col-sm-2">
                     User ID (Last 10 chars)
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
+                <div class="col-sm-2">
                     Username
                 </div>
-                <div class="visible-lg col-lg-1">
+                <div class="col-sm-1">
                     First Name
                 </div>
-                <div class="visible-lg col-lg-1">
+                <div class="col-sm-1">
                     Last Name
                 </div>
-                <div class="hidden-xs col-sm-3 col-lg-2">
+                <div class="col-sm-2">
                     Email
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
-                    Roles
+                <div class="col-sm-1">
+                    Role
                 </div>
-                <div class="col-xs-4 col-sm-2">
+                <div class="col-sm-1">
+                    Duty
+                </div>
+                <div class="col-sm-2">
                 </div>
 
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="hidden-xs col-sm-3 col-lg-2 ID">
+                <div class="hidden-xs col-sm-2 ID">
                     {{vm._user._id.slice(-10)}}
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
+                <div class="col-sm-2">
                     <input ng-model="vm._user.username" class="form-control"/>
                 </div>
-                <div class="visible-lg col-lg-1">
-                    <input ng-model="vm._user.firstName" class="form-control"/>
+                <div class="col-sm-1">
+                    <input ng-model="vm._user.first_name" class="form-control"/>
                 </div>
-                <div class="visible-lg col-lg-1">
-                    <input ng-model="vm._user.lastName" class="form-control"/>
+                <div class="col-sm-1">
+                    <input ng-model="vm._user.last_name" class="form-control"/>
                 </div>
-                <div class="hidden-xs col-sm-3 col-lg-2">
+                <div class="col-sm-2">
                     <input ng-model="vm._user.email" class="form-control"/>
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
-                    <input ng-model="vm._user.roles" class="form-control"/>
+                <div class="col-sm-1">
+                    <select ng-model="vm._user.role">
+                        <option ng-repeat="role in vm.roles" value="{{role}}">{{role}}</option>
+                    </select>
                 </div>
-                <div class="col-xs-4 col-sm-2">
-                    <span ng-click="vm.updateUser(vm._user);vm._user={}" class="glyphicon glyphicon-ok pull-right">&nbsp</span>
-                    <span ng-click="vm.createUser(vm._user);vm._user={}" class="glyphicon glyphicon-plus pull-right">&nbsp</span>
-                    <span ng-click="vm.searchUser(vm._user.username)" class="glyphicon glyphicon-search pull-right">&nbsp</span>
+                <div class="col-sm-1">
+                    <div ng-show="vm._user.role === 'STAFF'">
+                    <select ng-model="vm._user.duty">
+                        <option ng-repeat="duty in vm.duties" value="{{duty}}">{{duty}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <span ng-click="vm.updateUser();" class="glyphicon glyphicon-ok pull-right">&nbsp</span>
+                    <span ng-click="vm.createUser();" class="glyphicon glyphicon-plus pull-right">&nbsp</span>
+                    <span ng-click="vm.searchUser();" class="glyphicon glyphicon-search pull-right">&nbsp</span>
                 </div>
             </div>
         </li>
         <li ng-repeat="_user in vm.users" class="list-group-item">
             <div class="row">
-                <div class="hidden-xs col-sm-3 col-lg-2 ID">
+                <div class="hidden-xs col-sm-2">
                     {{_user._id.slice(-10)}}
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
+                <div class="col-sm-2">
                     {{_user.username}}
                 </div>
-                <div class="visible-lg col-lg-1">
-                    {{_user.firstName}}
+                <div class="col-sm-1">
+                    {{_user.first_name}}
                 </div>
-                <div class="visible-lg col-lg-1">
-                    {{_user.lastName}}
+                <div class="col-sm-1">
+                    {{_user.last_name}}
                 </div>
-                <div class="hidden-xs col-sm-3 col-lg-2">
+                <div class="col-sm-2">
                     {{_user.email}}
                 </div>
-                <div class="col-xs-4 col-sm-2 col-lg-2">
-                    <span ng-repeat="role in _user.roles">
-                        <span class="label label-default">{{role}}</span>
-                    </span>
+                <div class="col-sm-1">
+                    {{_user.role}}
                 </div>
-                <div class="col-xs-4 col-sm-2">
+                <div class="col-sm-1">
+                    <div ng-show="_user.role === 'STAFF'"> {{_user.duty}}</div>
+                </div>
+                <div class="col-sm-2">
                     <span ng-click="vm.selectUser(_user)" class="glyphicon glyphicon-pencil pull-right">&nbsp</span>
                     <span ng-click="vm.deleteUser(_user)" class="glyphicon glyphicon-remove pull-right">&nbsp</span>
                 </div>
             </div>
-
         </li>
     </ul>
 

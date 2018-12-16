@@ -5,6 +5,7 @@
 
     function flightInformationController ($routeParams,
                                           $location,
+                                          getToken,
                                           flightService,
                                           userService,
                                           currentUser) {
@@ -95,7 +96,7 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/flightstatus/' + flightType + '/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             url += airport + '/' + date + 'T' +  time_start + "?limit=80";
 
@@ -144,13 +145,14 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/flightstatus/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             url += flightNumber + '/' + date;
 
             flightService
                 .getFlightStatus(url, bearer_token)
                 .then(function (flight){
+                    console.log(flight);
                     vm.flight = flight;
                 }, function () {
                     vm.error = "No flight found! Please recheck the inputs."

@@ -38,8 +38,8 @@ body {
 
 .nav1,
 .navbar.navbar-default.navbar-fixed-bottom {
-    background-color: #f9ba00;
-    border-color: #f9ba00;
+    background-color: #f0f0f0;
+    border-color: #f0f0f0;
 }
 
 .navbar-default .navbar-brand,
@@ -59,20 +59,20 @@ body {
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
     z-index: 2;
     color: #fff;
-    background-color: #f9ba00;
-    border-color: #f9ba00;
+    background-color: #00205f;
+    border-color: #00195f;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #f9ba00;
-    border-color: #f9ba00;
+    background-color: #001c5f;
+    border-color: #001b5f;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
     color: #fff;
-    background-color: #e0a700;
-    border-color: #e0a700;
+    background-color: #001a4b;
+    border-color: #00184b;
 }
 
 .btn-facebook {
@@ -166,7 +166,7 @@ tr.departed {
 }
 
 .edit {
-    background-color: #fffaeb;
+    background-color: #fff;
 }
 
 .label-primary {

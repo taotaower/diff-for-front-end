@@ -5,7 +5,7 @@
 
     function userService ($http) {
 
-        var api = {
+        const api = {
             createUser: createUser,
             findUserById: findUserById,
             findUserByCredentials: findUserByCredentials,
@@ -21,12 +21,17 @@
             deleteUser: deleteUser,
             unregister: unregister,
             addSchedule: addSchedule,
-            deleteSchedule: deleteSchedule
+            deleteSchedule: deleteSchedule,
+            findAllPassenger:findAllPassenger,
+            checkinPassenger:checkinPassenger,
+            findAllTicketCheckers: findAllTicketCheckers,
+
+            searchUsers : searchUsers,
         };
         return api;
 
         function createUser (user) {
-            var url = "/api/lufthansa/user";
+            const url = "/api/lufthansa/user";
             return $http
                 .post(url, user)
                 .then(function (response) {
@@ -34,8 +39,18 @@
                 });
         }
 
+        function searchUsers(user){
+            const url = "/api/lufthansa/user/search";
+            return $http
+                .post(url, user)
+                .then(function (response) {
+                    return response.data;
+                });
+
+        }
+
         function findUserById (userId) {
-            var url = "/api/lufthansa/user/" + userId;
+            const url = "/api/lufthansa/user/" + userId;
             return $http
                 .get(url)
                 .then(function (response) {
@@ -44,7 +59,7 @@
         }
 
         function findUserByCredentials (username, password) {
-            var url = "/api/lufthansa/user?username=" + username + "&password=" + password;
+            const url = "/api/lufthansa/user?username=" + username + "&password=" + password;
             return $http
                 .get(url)
                 .then(function (response) {
@@ -53,16 +68,19 @@
         }
 
         function findUserByUsername (username) {
-            var url = "/api/lufthansa/user?username=" + username;
+            console.log("username",username);
+            const url = "/api/lufthansa/user?username=" + username;
+
             return $http
                 .get(url)
                 .then(function (response) {
+                    console.log("response",response);
                     return response.data;
                 });
         }
 
         function findAllUsers () {
-            var url = "/api/lufthansa/users";
+            const url = "/api/lufthansa/users";
             return $http
                 .get(url)
                 .then(function (response) {
@@ -71,7 +89,16 @@
         }
 
         function findAllCrew () {
-            var url = "/api/lufthansa/crew";
+            const url = "/api/lufthansa/crew";
+            return $http
+                .get(url)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function findAllTicketCheckers() {
+            const url = "/api/lufthansa/checkers";
             return $http
                 .get(url)
                 .then(function (response) {
@@ -81,14 +108,15 @@
 
 
         function login(username, password) {
-            var url = "/api/lufthansa/login";
-            var credentials = {
+            const url = "/api/lufthansa/login";
+            const credentials = {
                 username: username,
                 password: password
             };
             return $http
                 .post(url, credentials)
                 .then(function (response) {
+                    console.log("response.data",response.data);
                     return response.data;
                 });
         }
@@ -112,7 +140,7 @@
         }
 
         function register(userObj) {
-            var url = "/api/lufthansa/register";
+            const url = "/api/lufthansa/register";
             return $http.post(url, userObj)
                 .then(function (response) {
                     return response.data;
@@ -120,7 +148,7 @@
         }
 
         function unregister(userObj) {
-            var url = "/api/lufthansa/unregister";
+            const url = "/api/lufthansa/unregister";
             return $http.post(url, userObj)
                 .then(function (response) {
                     return response.data;
@@ -128,7 +156,8 @@
         }
 
         function updateUser (userId, user) {
-            var url = "/api/lufthansa/user/" + userId;
+            const url = "/api/lufthansa/user/" + userId;
+            console.log("userId", user);
             return $http
                 .put(url, user)
                 .then(function (response) {
@@ -137,7 +166,7 @@
         }
 
         function deleteUser (userId) {
-            var url = "/api/lufthansa/user/" + userId;
+            const url = "/api/lufthansa/user/" + userId;
             return $http
                 .delete(url)
                 .then(function (response) {
@@ -146,7 +175,7 @@
         }
 
         function addSchedule (userId, scheduleId) {
-            var url = "/api/lufthansa/user/" + userId + "/schedule/" + scheduleId;
+            const url = "/api/lufthansa/user/" + userId + "/schedule/" + scheduleId;
             return $http
                 .post(url)
                 .then(function (response) {
@@ -155,12 +184,40 @@
         }
 
         function deleteSchedule (scheduleId) {
-            var url = "/api/lufthansa/schedule/" + scheduleId;
+            const url = "/api/lufthansa/schedule/" + scheduleId;
             return $http
                 .delete(url)
                 .then(function (response) {
                     return response.data;
                 });
+        }
+
+        function findAllPassenger(passengerIds){
+            const url = "/api/lufthansa/user/findAllPassenger";
+            return $http
+                .post(url,passengerIds)
+                .then(
+                    response =>{
+                        console.log("all passengers",response.data);
+                        return response.data;
+                    }
+                )
+
+        }
+
+        function checkinPassenger(passengerId){
+
+          const url = "/api/lufthansa/user/checkinPassenger";
+          return $http
+              .post(url, {passengerId : passengerId})
+              .then(
+                  response => {
+                      console.log("dasdasdasdasdasdasda");
+                      console.log(response);
+                    return response.data
+                  }
+              )
+
         }
     }
 })();

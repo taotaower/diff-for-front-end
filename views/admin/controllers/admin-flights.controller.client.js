@@ -3,7 +3,7 @@
         .module('Project')
         .controller('AdminFlightController', adminFlightController);
 
-    function adminFlightController(currentUser, flightService, userService) {
+    function adminFlightController(currentUser, getToken, flightService, userService) {
         var vm = this;
 
         vm.user = currentUser;
@@ -76,7 +76,7 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/schedules/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             url += origin + '/' + destination + '/' + date + "?limit=100&directFlights=" + directFlights;
 
@@ -151,7 +151,7 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/flightstatus/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             // format date
             var dd = ((departureTime.getDate()<10) ? '0':'' ) + departureTime.getDate();

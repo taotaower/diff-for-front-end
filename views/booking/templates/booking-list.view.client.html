@@ -10,8 +10,78 @@
 </div>
 <div class="container-fluid" ng-show="vm.bookings.length">
 
-    <h2>Your Bookings</h2>
+    <div class="show-staff" ng-show="vm.selectPassenger">
 
+            <h4>Passenger information</h4>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            First Name
+                        </div>
+                        <div class="col-sm-2">
+                            Last Name
+                        </div>
+                        <div class="col-sm-2">
+                            Phone
+                        </div>
+                        <div class="col-sm-2">
+                            Email
+                        </div>
+                        <div class="col-sm-2">
+                            Passport
+                        </div>
+                        <div></div>
+                    </div>
+                </li>
+
+                <li class="list-group-item active">
+                    <div class="row">
+                        <div class="hidden-xs col-xs-2">
+                            {{vm.passenger.first_name}}
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            {{vm.passenger.last_name}}
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            {{vm.passenger.phone}}
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            {{vm.passenger.email}}
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            {{vm.passenger.passport_number}}
+                        </div>
+                        <div></div>
+                    </div>
+                </li>
+
+                <li class="list-group active">
+                    <div class="row">
+                        <div class="hidden-xs col-xs-2">
+                            <input ng-model="vm.passenger.first_name" >
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            <input ng-model="vm.passenger.last_name">
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            <input ng-model="vm.passenger.phone">
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            <input ng-model="vm.passenger.email">
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            <input ng-model="vm.passenger.passport_number">
+                        </div>
+                        <div class="hidden-xs col-xs-2">
+                            <a class="btn btn-success btn-block"  ng-click="vm.updatePassenger(vm.passenger)">updatePassenger</a>
+                        </div>
+                    </div>
+                </li>>
+            </ul>
+    </div>
+
+    <h4>Your Bookings</h4>
     <div class="table-responsive" ng-show="vm.bookings">
         <table class="table table-hover">
             <thead>
@@ -31,17 +101,19 @@
             <tbody ng-repeat="booking in vm.bookings" id="tbody">
                 <tr>
                     <td><h5>{{booking._id.slice(-10)}}</h5></td>
-                    <td><h5>{{booking.dateCreated | date}}</h5></td>
-                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.departure_airport}}</div></h5></td>
-                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.departure_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
-                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.arrival_airport}}</div></h5></td>
-                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.arrival_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
-                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.marketing_carrier}}{{flight.marketing_flight_number}}</div></h5></td>
+                    <td><h5>{{booking.date_created | date}}</h5></td>
+                    <td><h5><div>{{booking.flight.departure_airport}}</div></h5></td>
+                    <td><h5><div>{{booking.flight.departure_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
+                    <td><h5><div>{{booking.flight.arrival_airport}}</div></h5></td>
+                    <td><h5><div>{{booking.flight.arrival_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
+                    <td><h5><div>{{booking.flight.marketing_carrier}}{{flight.marketing_flight_number}}</div></h5></td>
                     <td><h4>${{booking.price}}</h4></td>
-                    <td><div ng-repeat="flight in vm.flights[$index]">
-                        <a class="btn btn-success btn-block" href="#!/booking/{{booking._id}}">Edit</a></div></td>
-                    <td><div ng-repeat="flight in vm.flights[$index]"><a class="btn btn-primary btn-block"
-                           href="#!/operations/flightstatus/{{flight.marketing_carrier}}{{flight.marketing_flight_number}}/{{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}">Status</a></div></td>
+                    <td><div>
+                        <a class="btn btn-danger btn-block" ng-click="vm.cancelBooking(booking._id)">Cancel</a></div></td>
+                    <td><div><a class="btn btn-primary btn-block"
+                           href="#!/operations/flightstatus/{{booking.flight.marketing_carrier}}{{booking.flight.marketing_flight_number}}/{{booking.flight.departure_scheduled_time | date:'yyyy-MM-dd'}}">Status</a></div></td>
+                    <td><div>
+                        <a class="btn btn-success btn-block"  ng-click="vm.fetchPassenger(booking._id, booking.passenger)">Passenger</a></div></td>
                 </tr>
 
             </tbody>

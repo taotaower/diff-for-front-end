@@ -4,8 +4,7 @@
         .service('bookingService', bookingService);
 
     function bookingService ($http) {
-        // "this" is private
-        // APIs
+
         this.findAllBookingsForUser = findAllBookingsForUser;
         this.findBookingById = findBookingById;
         this.findAllBookings = findAllBookings;
@@ -14,6 +13,18 @@
         this.updateBooking = updateBooking;
         this.addFlight = addFlight;
         this.deleteFlight = deleteFlight;
+        this.findAllReservationsByFlightWithPass = findAllReservationsByFlightWithPass;
+
+        function findAllReservationsByFlightWithPass(flight_id){
+            console.log("front end id" ,flight_id);
+            let url = "/api/booking/flight/reservations";
+            return $http
+                .post(url, {flight:flight_id})
+                .then(function (response) {
+                    return response.data;
+                });
+
+        }
 
         function findAllBookingsForUser (userId) {
             var url = "/api/user/" + userId + "/booking";
@@ -51,8 +62,17 @@
                 });
         }
 
-        function createBooking (userId, booking) {
-            var url = "/api/user/" + userId + "/booking";
+        // function createBooking (userId, booking) {
+        //     var url = "/api/user/" + userId + "/booking";
+        //     return $http
+        //         .post(url, booking)
+        //         .then(function (response) {
+        //             return response.data;
+        //         });
+        // }
+
+        function createBooking (booking) {
+            var url = "/api/user/booking";
             return $http
                 .post(url, booking)
                 .then(function (response) {
@@ -70,9 +90,10 @@
         }
 
         function addFlight (bookingId, flightId) {
-            var url = "/api/booking/" + bookingId + "/" + flightId;
+            console.log("addFlightaddFlight");
+            let url = "/api/booking/addFlight/update";
             return $http
-                .post(url)
+                .post(url,{bookingId: bookingId, flightId:flightId})
                 .then(function (response) {
                     return response.data;
                 });

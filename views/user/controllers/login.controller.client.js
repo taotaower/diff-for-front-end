@@ -5,7 +5,7 @@
 
     function LoginController($location, userService, $rootScope) {
 
-        var vm = this;
+        const vm = this;
 
         vm.login = login;
 

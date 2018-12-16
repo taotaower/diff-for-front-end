@@ -2,100 +2,141 @@
     angular
         .module('Project')
         .controller('NewBookingController', NewBookingController);
-
     function NewBookingController ($routeParams,
                                    $location,
                                    currentUser,
+                                   getToken,
                                    bookingService,
                                    flightService,
                                    userService) {
-        var vm = this;
+        let vm = this;
+        vm.isAnonymousUser = currentUser === undefined;
 
-        if ($routeParams.username === null || typeof $routeParams.username === 'undefined') {
-            vm.uid = currentUser._id;
-        } else {
-            vm.other_username = $routeParams.username;
-            userService
-                .findUserByUsername(vm.other_username)
-                .then(function (user) {
-                    vm.uid = user._id;
-                });
-        }
-        vm.user = currentUser;
-        vm.food = $routeParams.food;
-        vm.lounge = $routeParams.lounge;
-        vm.origin = $routeParams.origin;
-        vm.destination = $routeParams.destination;
-        vm.url = window.location.href.split('#!')[1];
+
+
+        resetBookingPage();
+
 
 
         vm.createBooking = createBooking;
         vm.getAvailableFlights = getAvailableFlights;
+        vm.prepBooking = prepBooking;
         vm.logout = logout;
+        vm.resetBookingPage = resetBookingPage;
+        vm.checkReservation = checkReservation;
 
-        function createBooking (uid, schedule) {
-            if (vm.food && vm.lounge) {
-                booking = {
-                    dateCreated: new Date(),
-                    food: vm.food,
-                    lounge: vm.lounge,
-                    price: schedule.price
-                };
-            } else {
-                booking = {
-                    dateCreated: new Date(),
-                    price: schedule.price
-                };
+        function checkReservation (){
+            $location.url('/booking');
+        }
+
+        function resetBookingPage(){
+            vm.passenger ={
+                email: '',
+                phone: '',
+                first_name: '',
+                last_name: '',
+                date_of_birth: '',
+                passport_number: '',
+                check_in: false,
+            };
+
+            vm.confirmation = false;
+            vm.startBooking = false;
+            vm.bookingSuccess = false;
+            vm.bookingFail = false;
+
+            vm.user = currentUser;
+            console.log("vm.user ",vm.user);
+            vm.origin = $routeParams.origin;
+            vm.destination = $routeParams.destination;
+            vm.url = window.location.href.split('#!')[1];
+        }
+
+
+
+        function prepBooking(schedule){
+            resetConfirmation();
+            vm.flight_price = schedule.price;
+            vm.flight = {
+                departure_airport: schedule.Flight.Departure.AirportCode,
+                departure_scheduled_time: schedule.Flight.Departure.ScheduledTimeLocal.DateTime,
+                departure_terminal: schedule.Flight.Departure.Terminal.Name,
+                arrival_airport: schedule.Flight.Arrival.AirportCode,
+                arrival_scheduled_time: schedule.Flight.Arrival.ScheduledTimeLocal.DateTime,
+                arrival_terminal: schedule.Flight.Arrival.Terminal.Name,
+                marketing_carrier: schedule.Flight.MarketingCarrier.AirlineID,
+                marketing_flight_number: schedule.Flight.MarketingCarrier.FlightNumber,
+                equipment: schedule.Flight.Equipment.AircraftCode,
+                journey_duration: schedule.TotalJourney.Duration,
+                dateCreated: new Date(),
+                dateUpdated: new Date()
             }
 
+        }
 
+        function resetConfirmation(){
+            vm.confirmation = !vm.confirmation;
+        }
+
+        function createBooking(){
+            //create passenger
+
+            let username = '_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
+            let passenger = {username: username,
+                ...vm.passenger};
+            vm.startBooking = true;
+            userService
+                .createUser(passenger)
+                .then(
+                    res => {
+                        console.log(res);
+                        makeReservation(res._id)
+                    },
+                    err => {
+                        vm.bookingFail= true;
+                        vm.startBooking = false;
+                    console.log(err);
+                    });
+        }
+
+        function makeReservation (passengerId) {
+
+            let currentUserId = currentUser === undefined ? passengerId : currentUser._id;
+            let booking ={
+                passenger: passengerId,
+                price: vm.flight_price,
+                createUser: currentUserId,
+            };
+
+            // create reservation first
             bookingService
-                .createBooking(uid, booking)
+                .createBooking(booking)
                 .then(function (booking) {
-                    console.log(booking);
-                    var bookingId = booking._id;
+                    let bookingId = booking._id;
 
-                    var flightObj = {
-                        departure_airport: schedule.Flight.Departure.AirportCode,
-                        departure_scheduled_time: schedule.Flight.Departure.ScheduledTimeLocal.DateTime,
-                        departure_terminal: schedule.Flight.Departure.Terminal.Name,
-                        arrival_airport: schedule.Flight.Arrival.AirportCode,
-                        arrival_scheduled_time: schedule.Flight.Arrival.ScheduledTimeLocal.DateTime,
-                        arrival_terminal: schedule.Flight.Arrival.Terminal.Name,
-                        marketing_carrier: schedule.Flight.MarketingCarrier.AirlineID,
-                        marketing_flight_number: schedule.Flight.MarketingCarrier.FlightNumber,
-                        equipment: schedule.Flight.Equipment.AircraftCode,
-                        journey_duration: schedule.TotalJourney.Duration,
-                        dateCreated: new Date(),
-                        dateUpdated: new Date()
-                    };
+                    let flightObj = vm.flight;
 
-                    var carrier = flightObj.marketing_carrier;
-                    var flightNumber = flightObj.marketing_flight_number;
-                    var departureTime = flightObj.departure_scheduled_time;
+                    let carrier = flightObj.marketing_carrier;
+                    let flightNumber = flightObj.marketing_flight_number;
+                    let departureTime = flightObj.departure_scheduled_time;
 
                     flightService
                         .findFlightByFlightInfo(carrier, flightNumber, departureTime)
                         .then(function (flight) {
+                            // if fight not exist
                             if (flight === null || flight === '' || typeof flight === 'undefined') {
                                 flightService
                                     .createFlight(bookingId, flightObj) // create a new flight and add reference
                                     .then(function () {
-                                        if ($routeParams.username === null || typeof $routeParams.username === 'undefined') {
-                                            $location.url('/booking');
-                                        } else {
-                                            $location.url('/admin/booking');
-                                        }
+                                        vm.bookingSuccess = true;
+                                        vm.startBooking = false;
                                     });
                             } else {
                                 bookingService
                                     .addFlight(bookingId, flight._id) // add reference only
                                     .then(function () {
-                                        if ($routeParams.username === null || typeof $routeParams.username === 'undefined') {
-                                            $location.url('/booking');
-                                        } else {
-                                            $location.url('/admin/booking');
-                                        }
+                                        vm.bookingSuccess = true;
+                                        vm.startBooking = false;
                                     });
                             }
                         });
@@ -149,7 +190,7 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/schedules/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             url += origin + '/' + destination + '/' + date + "?limit=100&directFlights=" + directFlights;
 
@@ -180,3 +221,4 @@
         }
     }
 })();
+

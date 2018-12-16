@@ -6,6 +6,7 @@
     function FlightStatusController ($routeParams,
                                      $location,
                                      flightService,
+                                     getToken,
                                      userService,
                                      currentUser,
                                      bookingService) {
@@ -22,7 +23,7 @@
             var host = 'api.lufthansa.com';
             var url = 'https://'+host+'/v1/operations/flightstatus/';
 
-            var bearer_token = "bey8rwhjcqtrvjebazqef3f5";
+            var bearer_token = getToken;
 
             url += vm.flightNumber + '/' + vm.date;
 

@@ -1,22 +1,20 @@
-<link href="../../../project/css/style.css" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid nav1">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
-                <img width="160" src="../../../project/images/Lufthansa_Logo.png"/>
+                <img width="160" src="../../images/Lufthansa_Logo.png"/>
             </a>
             <div class="navbar-text pull-right">
                 <span ng-show="vm.user._id" class="navbar-link">
-                    <span class="glyphicon glyphicon-user"></span> Hello, <a href="#!/profile"><b>{{vm.user.username}}</b> | </a>
+                    <span class="glyphicon glyphicon-user"></span> Hello, <a href="#!/profile"><b>{{vm.user.username ? vm.user.username : "passenger"}}</b> | </a>
                 </span>
-                <span ng-show="vm.user.roles.indexOf('ADMIN')>-1" class="navbar-link"><a href="#!/admin">Admin | </a></span>
-                <span ng-show="vm.user.roles.indexOf('CREW')>-1" class="navbar-link"><a href="#!/schedule">Crew | </a></span>
                 <span ng-show="!vm.user._id" class="navbar-link">
                     <a href="#!/login"><span class="glyphicon glyphicon-user"></span> Login | </a>
                 </span>
-                <span ng-show="!vm.user._id" class="navbar-link"><a href="#!/register">Register</a></span>
-                <span ng-show="vm.user._id" class="navbar-link"><a ng-click="vm.logout()">Logout</a></span>
+                <span ng-show="!vm.user._id" class="navbar-link"><a href="#!/register"> Register </a></span>
+                <span ng-show="vm.user._id" class="navbar-link"><a ng-click="vm.logout()"> Logout </a></span>
             </div>
         </div>
     </div>
@@ -34,20 +32,23 @@
                 <li ng-class="vm.url === '/' ? 'active' : ''">
                     <a href="#">Home</a></li>
 
-                <li ng-class="vm.url === '/booking/new' ? 'active' : ''">
-                    <a href="#!/booking/new" ng-show="vm.user.roles.indexOf('PASSENGER')>-1">Plan Your Trips</a></li>
-
-                <li ng-class="vm.url === '/booking' ? 'active' : ''">
-                    <a href="#!/booking" ng-show="vm.user.roles.indexOf('PASSENGER')>-1">Find Your Trips</a></li>
-
                 <li ng-class="vm.url === '/schedule' ? 'active' : ''">
-                    <a href="#!/schedule" ng-show="vm.user.roles.indexOf('CREW')>-1">View Your Schedules</a></li>
+                    <a href="#!/schedule" ng-show="vm.user.role === 'CREW' ">View Your Schedules</a></li>
 
                 <li ng-class="vm.url === '/admin' ? 'active' : ''">
-                    <a href="#!/admin" ng-show="vm.user.roles.indexOf('ADMIN')>-1">Administration Page</a></li>
+                    <a href="#!/admin" ng-show="vm.user.role === 'ADMIN'">Administration Page</a></li>
+
+                <li ng-class="vm.url === '/staff' ? 'active' : ''">
+                    <a href="#!/staff" ng-show="vm.user.role === 'STAFF'">Staff Page</a></li>
 
                 <li ng-class="vm.url === '/operations/flightstatus' ? 'active' : ''">
                     <a href="#!/operations/flightstatus">Flight Status</a></li>
+
+                <li ng-class="vm.url === '/booking' ? 'active' : ''">
+                    <a href="#!/booking">Check Your Reservations</a></li>
+
+                <li ng-class="vm.url === '/booking/new' ? 'active' : ''">
+                    <a href="#!/booking/new">Book Tickets</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
