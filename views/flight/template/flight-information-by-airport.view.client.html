@@ -1,0 +1,91 @@
+<div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+<div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
+<div ng-show="vm.error3" class="alert alert-danger">{{vm.error3}}</div>
+<div ng-show="vm.error4" class="alert alert-danger">{{vm.error4}}</div>
+
+
+    <div>
+        <label for="airport">Airport</label>
+        <input type="text"
+               class="form-control"
+               ng-model="vm.airport"
+               placeholder="eg: FRA"
+               id="airport" required/>
+    </div>
+    <div>
+        <label for="date">Date</label>
+        <input type="date"
+               class="form-control"
+               ng-model="vm.date"
+               placeholder="eg: yyyy-MM-dd"
+               id="date" required/>
+    </div>
+    <div>
+        <label for="time_start">Time Start</label>
+        <input type="text"
+               class="form-control"
+               ng-model="vm.timeStart"
+               placeholder="eg: 09:00"
+               id="time_start" required/>
+    </div>
+    <div>
+        <form name="flightType">
+            <label><input type="radio" ng-model="vm.flightType" value="departures"> Departures  </label>
+            <label><input type="radio" ng-model="vm.flightType" value="arrivals"> Arrivals</label><br/>
+        </form>
+    </div>
+
+    <div>
+        <a ng-click="vm.getAllFlightInformationByAirport(vm.airport, vm.date, vm.timeStart, vm.flightType)"
+           class="btn btn-block btn-primary">
+            Search
+        </a>
+    </div>
+
+<br/>
+<br/>
+<div ng-show="!vm.flights && !vm.error && vm.waiting" class="alert alert-info">{{vm.waiting}}</div>
+<div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+
+<div ng-show="vm.flights">
+    <h3 ng-show="vm.oldFlightType === 'departures'" id="DepartureHeader">Flights Departing from {{vm.oldAirport}}</h3>
+    <h3 ng-show="vm.oldFlightType === 'arrivals'" id="ArrivalHeader">Flights Arriving at {{vm.oldAirport}}</h3>
+    <div class="table-responsive">
+        <table class="table table-hover" id="table">
+            <thead>
+            <tr>
+                <td>Departure from</td>
+                <td>Scheduled Time of Departure</td>
+                <td>Actual Time of Departure</td>
+                <td>Gate Departure</td>
+                <td>Arrival At</td>
+                <td>Scheduled Time of Arrival</td>
+                <td>Actual Time of Arrival</td>
+                <td>Terminal Arrival</td>
+                <td>Flight Number</td>
+                <td>Flight Status</td>
+                <td></td>
+            </tr>
+            </thead>
+
+            <tbody ng-repeat="flight in vm.flights" id="tbody">
+            <tr ng-class="{'cancelled': flight.FlightStatus.Definition === 'Flight Cancelled', 'departed': flight.FlightStatus.Definition === 'Flight Departed'}">
+                <td>{{flight.Departure.AirportCode}}</td>
+                <td>{{flight.Departure.ActualTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{flight.Departure.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{flight.Departure.Terminal.Gate}}</td>
+                <td>{{flight.Arrival.AirportCode}}</td>
+                <td>{{flight.Arrival.ActualTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{flight.Arrival.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{flight.Arrival.Terminal.Name}}</td>
+                <td><span class="label label-primary">{{flight.OperatingCarrier.AirlineID}}{{flight.OperatingCarrier.FlightNumber}}</span></td>
+                <td ng-show="flight.FlightStatus.Definition !== 'No status'">{{flight.FlightStatus.Definition.split(" ")[1]}}</td>
+                <td ng-show="flight.FlightStatus.Definition === 'No status'">{{flight.FlightStatus.Definition}}</td>
+                <td><a class="btn btn-primary btn-block"
+                       href="#!/operations/flightstatus/{{flight.OperatingCarrier.AirlineID}}{{flight.OperatingCarrier.FlightNumber}}/{{vm.dateFormat}}">More Info</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

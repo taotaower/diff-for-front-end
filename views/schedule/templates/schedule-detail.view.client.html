@@ -1,0 +1,90 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container-fluid">
+    <h3>Details of schedule
+        <span ng-show="vm.flight">- Flight <span class="label label-primary">{{vm.flight.marketing_carrier}}{{vm.flight.marketing_flight_number}}</span>
+         <a class="btn btn-primary"
+            href="#!/operations/flightstatus/{{vm.flight.marketing_carrier}}{{vm.flight.marketing_flight_number}}/{{vm.flight.departure_scheduled_time | date:'yyyy-MM-dd'}}">
+             Check Status</a>
+        </span>
+    </h3>
+    <br>
+    <h4>View the manifest</h4>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="hidden-xs col-sm-3">
+                    User ID
+                </div>
+                <div class="col-xs-3 col-sm-2">
+                    Username
+                </div>
+                <div class="col-xs-2">
+                    Food
+                </div>
+                <div class="col-xs-2">
+                    Lounge
+                </div>
+                <div class="col-xs-5 col-sm-3">
+
+                </div>
+            </div>
+        </li>
+        <li ng-repeat="_user in vm.users" class="list-group-item">
+            <div class="row">
+                <div class="hidden-xs col-sm-3">
+                    {{_user._id}}
+                </div>
+                <div class="col-xs-3 col-sm-2">
+                    {{_user.username}}
+                </div>
+                <div class="col-xs-2">
+                    {{vm.bookings[$index].food}}
+                </div>
+                <div class="col-xs-2">
+                    {{vm.bookings[$index].lounge}}
+                </div>
+                <div class="col-xs-5 col-sm-3">
+                    <a href="#!/public_profile/{{_user.username}}" class="btn btn-success btn-block">
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br>
+    <h4>Crew members in this flight</h4>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="hidden-xs col-sm-5">
+                    Crew ID
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    Username
+                </div>
+                <div class="col-xs-8 col-sm-3">
+
+                </div>
+            </div>
+        </li>
+        <li ng-repeat="_crew in vm.crew" class="list-group-item">
+            <div class="row">
+                <div class="hidden-xs col-sm-5">
+                    {{_crew._id}}
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    {{_crew.username}}
+                </div>
+                <div class="col-xs-8 col-sm-3">
+                    <a href="#!/public_profile/{{_crew.username}}" class="btn btn-success btn-block">
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <a class="btn btn-delete" href="#!/schedule">Back</a>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="Project">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <script src="../project/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../project/vendor/jquery/jquery-ui.min.js"></script>
+    <script src="../project/vendor/angular/angular.min.js"></script>
+    <script src="../project/vendor/angular/angular-route.min.js"></script>
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+
+    <script src="views/home/main.controller.client.js"></script>
+
+    <!-- admin -->
+    <script src="views/admin/controllers/admin-users.controller.client.js"></script>
+    <script src="views/admin/controllers/admin-bookings.controller.client.js"></script>
+    <script src="views/admin/controllers/admin-schedules.controller.client.js"></script>
+    <script src="views/admin/controllers/admin-flights.controller.client.js"></script>
+
+    <!-- user -->
+    <script src="views/user/controllers/login.controller.client.js"></script>
+    <script src="views/user/controllers/profile.controller.client.js"></script>
+    <script src="views/user/controllers/public-profile.controller.client.js"></script>
+    <script src="views/user/controllers/register.controller.client.js"></script>
+    <script src="services/user.service.client.js"></script>
+
+    <!-- message -->
+    <script src="views/message/controllers/message.controller.client.js"></script>
+    <script src="services/message.service.client.js"></script>
+
+    <!-- booking -->
+    <script src="views/booking/controllers/booking-list.controller.client.js"></script>
+    <script src="views/booking/controllers/booking-edit.controller.client.js"></script>
+    <script src="views/booking/controllers/booking-new.controller.client.js"></script>
+    <script src="services/booking.service.client.js"></script>
+
+    <!-- flight -->
+    <script src="views/flight/controller/flight-status.controller.client.js"></script>
+    <script src="views/flight/controller/flight-information.controller.client.js"></script>
+    <script src="services/flight.service.client.js"></script>
+
+    <!-- schedule -->
+    <script src="views/schedule/controllers/schedule-list.controller.client.js"></script>
+    <script src="views/schedule/controllers/schedule-detail.controller.client.js"></script>
+    <script src="services/schedule.service.client.js"></script>
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Welcome to Lufthansa</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assignment/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div ng-view></div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<!--<script src="../assignment/vendor/jquery/jquery-ui.min.js"></script>-->
+<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="../../assets/js/docs.min.js"></script>-->
+</body>
+
+</html>

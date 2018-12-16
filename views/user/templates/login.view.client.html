@@ -1,0 +1,47 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+    <div class="container-fluid">
+        <h1>Login</h1>
+        <div ng-show="vm.error3" class="alert alert-danger">{{vm.error3}}</div>
+
+        <label for="username">Username</label>
+        <input ng-model="username"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false"
+               type="text"
+               ng-class="{submitted:vm.submitted1}"
+               id="username"
+               class="form-control"
+               placeholder="Lufthansa" required/>
+        <div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+
+        <label for="password">Password</label>
+        <input ng-model="password"
+               type="password"
+               ng-class="{submitted:vm.submitted2}"
+               id="password"
+               class="form-control"
+               placeholder="LH2017password" required/>
+        <div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
+
+        <a data-ng-click="vm.login(username, password)"
+           class="btn btn-primary btn-block">
+            Login
+        </a>
+
+        <a class="btn btn-success btn-block"
+           href="#!/register">Register</a>
+
+        <a href="/auth/facebook" class="btn btn-facebook btn-block">
+            <span class="fa fa-facebook-official"></span>
+            Facebook
+        </a>
+        <a href="/auth/google" class="btn btn-danger btn-block">
+            <span class="fa fa-google-plus"></span>
+            Google
+        </a>
+
+    </div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

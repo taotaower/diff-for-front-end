@@ -1,0 +1,133 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container-fluid">
+    <h3>Manage Flights with API</h3>
+    <p>Update: Use the latest flight information obtained from API to update.</p>
+    <div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+    <div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
+    <div ng-show="vm.error3" class="alert alert-danger">{{vm.error3}}</div>
+    <div ng-show="vm.error4" class="alert alert-danger">{{vm.error4}}</div>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-2">
+                    Flight ID (Last 10 chars)
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    Flight Number
+                </div>
+                <div class="visible-lg col-lg-1">
+                    Origin
+                </div>
+                <div class="visible-lg col-lg-1">
+                    Destination
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    Scheduled Time of Departure
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-2">
+                    Date of Departure
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                </div>
+
+            </div>
+        </li>
+        <li class="list-group-item edit">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-2 ID">
+                    <b>{{vm.flight._id.slice(-10)}}</b>
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    <b>{{vm.flight.marketing_carrier}}{{vm.flight.marketing_flight_number}}</b>
+                </div>
+                <div class="visible-lg col-lg-1">
+                    <input ng-model="vm.flight.departure_airport" class="form-control" ng-disabled="vm.selected"/>
+                </div>
+                <div class="visible-lg col-lg-1">
+                    <input ng-model="vm.flight.arrival_airport" class="form-control" ng-disabled="vm.selected"/>
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    <b ng-show="vm.selected">{{vm.flight.departure_scheduled_time | date:'hh:mm a'}}</b>
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-2">
+                    <input type="date" ng-model="vm.flight.departure_scheduled_time" class="form-control" ng-disabled="vm.selected"/>
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                    <span ng-click="vm.updateFlight(vm.flight);vm.flight={}" class="glyphicon glyphicon-ok pull-right"></span>
+                    <a ng-click="vm.getAvailableFlights(vm.flight);vm.flight={}"><span class="glyphicon glyphicon-plus pull-right"></span></a>
+                </div>
+
+            </div>
+        </li>
+        <li ng-repeat="flight in vm.flights" class="list-group-item">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-2 ID">
+                    {{flight._id.slice(-10)}}
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    {{flight.marketing_carrier}}{{flight.marketing_flight_number}}
+                </div>
+                <div class="visible-lg col-lg-1">
+                    {{flight.departure_airport}}
+                </div>
+                <div class="visible-lg col-lg-1">
+                    {{flight.arrival_airport}}
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    {{flight.departure_scheduled_time | date:'hh:mm a'}}
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-2">
+                    {{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                    <span ng-click="vm.selectFlight(flight, $index)" class="glyphicon glyphicon-pencil pull-right"></span>
+                    <span ng-click="vm.deleteFlight(flight)" class="glyphicon glyphicon-remove pull-right"></span>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+    <div ng-show="!vm.schedules && !vm.error && vm.waiting" class="alert alert-info">{{vm.waiting}}</div>
+    <div class="alert alert-danger" ng-show="vm.error">{{vm.error}}</div>
+    <div ng-show="vm.showAvailableFlights && vm.schedules">
+        <h3>Available Flights</h3>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Origin</th>
+                    <th>Departure Time</th>
+                    <th>Destination</th>
+                    <th>Arrival Time</th>
+                    <th>Airlines</th>
+                    <th>Flight Number</th>
+                    <th>Duration</th>
+                    <th>Aircraft</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="schedule in vm.schedules">
+                    <td>{{schedule.Flight.Departure.AirportCode}}</td>
+                    <td>{{schedule.Flight.Departure.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                    <td>{{schedule.Flight.Arrival.AirportCode}}</td>
+                    <td>{{schedule.Flight.Arrival.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                    <td>{{schedule.Flight.MarketingCarrier.AirlineID}}</td>
+                    <td>{{schedule.Flight.MarketingCarrier.FlightNumber}}</td>
+                    <td>{{schedule.TotalJourney.Duration.slice(2)}}</td>
+                    <td>{{schedule.Flight.Equipment.AircraftCode}}</td>
+                    <td><a ng-click="vm.createFlightOnly(schedule)"
+                           class="btn btn-block btn-primary">Add</a></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="#!/admin" class="btn btn-delete">Back</a>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

@@ -1,0 +1,77 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<title>Get the all the Flight Information of a particular Flight</title>
+<body>
+<div class="container-fluid">
+    <h3 id="FlightHeader">Flight Status of <span class="label label-primary">{{vm.flightNumber}}</span></h3>
+    <br>
+    <div ng-show="!vm.flight && !vm.error && vm.waiting" class="alert alert-info">{{vm.waiting}}</div>
+    <div ng-show="vm.error">
+        <div class="alert alert-danger">{{vm.error}}</div>
+        <a href="#!/operations/flightstatus" class="btn btn-primary btn-block">Start a new flight search</a>
+    </div>
+
+    <div ng-show="vm.flight">
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <tbody id="tbody">
+                    <tr><th>Departure from</th><td>{{vm.flight.Departure.AirportCode}}</td></tr>
+                    <tr><th>Departure Time Local</th><td>{{vm.flight.Departure.ActualTimeLocal.DateTime.replace('T', ' ')}}</td></tr>
+                    <tr><th>Departure Time Status</th><td>{{vm.flight.Departure.TimeStatus.Definition}}</td></tr>
+                    <tr><th>Terminal Departure</th><td>{{vm.flight.Departure.Terminal.Name}}</td></tr>
+                    <tr><th>Gate Departure</th><td>{{vm.flight.Departure.Terminal.Gate}}</td></tr>
+
+                    <tr><th>Arrival at</th><td>{{vm.flight.Arrival.AirportCode}}</td></tr>
+                    <tr><th>Arrival Time Local</th><td>{{vm.flight.Arrival.ActualTimeLocal.DateTime.replace('T', ' ')}}</td></tr>
+                    <tr><th>Arrival Time Status</th><td>{{vm.flight.Arrival.TimeStatus.Definition}}</td></tr>
+                    <tr><th>Terminal Arrival</th><td>{{vm.flight.Arrival.Terminal.Name}}</td></tr>
+                    <tr><th>Gate Arrival</th><td>{{vm.flight.Arrival.Terminal.Gate}}</td></tr>
+
+                    <tr><th>Marketing Carrier</th><td>{{vm.flight.MarketingCarrier.AirlineID}}</td></tr>
+                    <tr><th>Marketing Flight Number</th><td>{{vm.flight.MarketingCarrier.FlightNumber}}</td></tr>
+                    <tr><th>Operating Carrier</th><td>{{vm.flight.OperatingCarrier.AirlineID}}</td></tr>
+                    <tr><th>Operating Flight Number</th><td>{{vm.flight.OperatingCarrier.FlightNumber}}</td></tr>
+                    <tr><th>Aircraft Code</th><td>{{vm.flight.Equipment.AircraftCode}}</td></tr>
+                    <tr><th>FlightStatus</th><td>{{vm.flight.FlightStatus.Definition}}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div ng-show="vm.user && vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+    <div ng-show="vm.user && vm.users && !vm.error1">
+        <h3>Who chose this flight?</h3>
+        <ul class="list-group" ng-show="vm.users">
+            <li class="list-group-item active">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-6">
+                        Username
+                    </div>
+                    <div class="col-xs-8 col-sm-6">
+
+                    </div>
+                </div>
+            </li>
+            <li ng-repeat="_user in vm.users" class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-6">
+                        <h5>{{_user.username}}</h5>
+                    </div>
+                    <div class="col-xs-8 col-sm-6">
+                        <a href="#!/public_profile/{{_user.username}}" class="btn btn-success btn-block">
+                            Profile
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+</script>
+</body>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

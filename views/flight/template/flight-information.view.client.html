@@ -1,0 +1,19 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<title>Get the all the Flight Information of a particular Airport</title>
+<body>
+
+<div class="container-fluid">
+    <h2>Find Flight Status</h2>
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="vm.tab === 'Airport' ? 'active' : ''"><a ng-click="vm.toggleTab('Airport')">By Airport</a></li>
+        <li role="presentation" ng-class="vm.tab === 'FlightNumber' ? 'active' : ''"><a ng-click="vm.toggleTab('FlightNumber')">By Flight Number</a></li>
+    </ul>
+    <br>
+    <div ng-show="vm.tab === 'Airport'" ng-include="'views/flight/template/flight-information-by-airport.view.client.html'"></div>
+    <div ng-show="vm.tab === 'FlightNumber'" ng-include="'views/flight/template/flight-information-by-flight-number.view.client.html'"></div>
+</div>
+
+</body>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

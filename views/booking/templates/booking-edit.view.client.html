@@ -1,0 +1,126 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container-fluid">
+    <h3>Manage your booking</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Booking ID</label>
+                        </div>
+                        <div class="col-xs-8">
+                            {{vm.booking._id}}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Booking At</label>
+                        </div>
+                        <div class="col-xs-8">
+                            {{vm.booking.dateCreated | date:'hh:mm a, MM/dd/yyyy'}}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Food</label>
+                        </div>
+                        <div class="col-xs-8">
+                            <form name="food">
+                                <span>
+                                    <label><input type="radio" ng-model="vm.booking.food" value="Yes"/> Yes</label>
+                                    <label><input type="radio" ng-model="vm.booking.food" value="No"/> No</label><br/>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Lounge</label>
+                        </div>
+                        <div class="col-xs-8">
+                            <form name="lounge">
+                                <span>
+                                    <label><input type="radio" ng-model="vm.booking.lounge" value="Yes"/> Yes</label>
+                                    <label><input type="radio" ng-model="vm.booking.lounge" value="No"/> No</label><br/>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+            <!--<label for="destination">Destination</label>-->
+            <!--<input type="text"-->
+            <!--class="form-control"-->
+            <!--ng-model="vm.booking.destination"-->
+            <!--placeholder="Destination"-->
+            <!--id="destination"/>-->
+
+            <a ng-click="vm.updateBooking(vm.bid, vm.booking)"
+               class="btn btn-block btn-success">
+                Update this trip
+            </a>
+            <a ng-click="vm.deleteBooking(vm.bid)"
+               class="btn btn-block btn-danger">
+                Cancel this trip
+            </a>
+            <a ng-click="vm.updateBooking(vm.bid, vm.booking)"
+               class="btn btn-block btn-delete">
+                Back
+            </a>
+        </div>
+
+        <div class="hidden-xs col-sm-6">
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    Flight Status
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Origin</label>
+                        </div>
+                        <div class="col-xs-8">
+                            {{vm.flight.departure_airport}}, departing at {{vm.flight.departure_scheduled_time | date:'hh:mm a'}}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Destination</label>
+                        </div>
+                        <div class="col-xs-8">
+                            {{vm.flight.arrival_airport}}, arriving at {{vm.flight.arrival_scheduled_time | date:'hh:mm a'}}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Flight Number</label>
+                        </div>
+                        <div class="col-xs-8">
+                            {{vm.flight.marketing_carrier}}{{vm.flight.marketing_flight_number}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <a class="btn btn-primary btn-block" href="#!/operations/flightstatus/{{vm.flight.marketing_carrier}}{{vm.flight.marketing_flight_number}}/{{vm.flight.departure_scheduled_time | date:'yyyy-MM-dd'}}">
+                More Details
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

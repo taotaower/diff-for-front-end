@@ -1,0 +1,145 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container-fluid">
+    <h3>Manage Schedules of Crew</h3>
+
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    Schedule ID (Last 10 chars)
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    Name
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    Date of Flight
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-3">
+                    Flight Number
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                </div>
+
+            </div>
+        </li>
+        <li class="list-group-item edit">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-3 ID">
+                   <b>{{vm.schedule._id.slice(-10)}}</b>
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    <input type="text" ng-model="vm._user.username" class="form-control"/>
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    <input type="date" ng-model="vm._flight.departure_scheduled_time" class="form-control"/>
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-3">
+                    <input type="text" ng-model="vm._flight.carrier_flight_number" class="form-control"/>
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                    <span ng-click="vm.updateSchedule(vm.schedule, vm._user.username, vm._flight.departure_scheduled_time, vm._flight.carrier_flight_number);vm.schedule={};vm._user={};vm._flight={}" class="glyphicon glyphicon-ok pull-right"></span>
+                    <span ng-click="vm.createSchedule(vm._user.username, vm._flight);vm.schedule={};vm._user={};vm._flight={}" class="glyphicon glyphicon-plus pull-right"></span>
+                </div>
+
+            </div>
+        </li>
+        <li ng-repeat="schedule in vm.schedules" class="list-group-item">
+            <div class="row">
+                <div class="hidden-xs col-sm-3 col-lg-3 ID">
+                    {{schedule._id.slice(-10)}}
+                </div>
+                <div class="col-xs-5 col-sm-2 col-lg-2">
+                    {{vm.users[$index].username}}
+                </div>
+                <div class="hidden-xs col-sm-3 col-lg-3">
+                    <div ng-repeat="flight in vm.flights[$index]">{{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}</div>
+                </div>
+                <div class="col-xs-5 col-sm-3 col-lg-3">
+                    <div ng-repeat="flight in vm.flights[$index]">
+                        <span class="label label-primary">{{flight.marketing_carrier}}{{flight.marketing_flight_number}}</span></div>
+                </div>
+                <div class="col-xs-2 col-sm-1">
+                    <span ng-click="vm.selectSchedule(schedule, $index)" class="glyphicon glyphicon-pencil pull-right"></span>
+                    <span ng-click="vm.deleteSchedule(schedule)" class="glyphicon glyphicon-remove pull-right"></span>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+    <a href="#!/admin" class="btn btn-delete">Back</a>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-6">
+            <h4>Look up available crew</h4>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <div class="row">
+                        <div class="hidden-xs col-sm-4">
+                            Crew ID (10 chars)
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            Name
+                        </div>
+                        <div class="col-xs-8 col-sm-4">
+
+                        </div>
+                    </div>
+                </li>
+                <li ng-repeat="_crew in vm.crew" class="list-group-item">
+                    <div class="row">
+                        <div class="hidden-xs col-sm-4">
+                            {{_crew._id.slice(-10)}}
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            <span class="label label-primary">{{_crew.username}}</span>
+                        </div>
+                        <div class="col-xs-8 col-sm-4">
+                            <a ng-click="vm.selectCrew(_crew)" class="btn btn-success btn-block">
+                                Select
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-6">
+            <h4>Look up available flights</h4>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <div class="row">
+                        <div class="hidden-xs col-sm-4">
+                            Date of Departure
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            Flight Number
+                        </div>
+                        <div class="col-xs-8 col-sm-4">
+
+                        </div>
+                    </div>
+                </li>
+                <li ng-repeat="flight in vm._flights" class="list-group-item">
+                    <div class="row">
+                        <div class="hidden-xs col-xs-4">
+                            {{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}
+                        </div>
+                        <div class="col-xs-4 col-sm-4">
+                            <span class="label label-primary">{{flight.marketing_carrier}}{{flight.marketing_flight_number}}</span>
+                        </div>
+                        <div class="col-xs-8 col-sm-4">
+                            <a ng-click="vm.selectFlight(flight)" class="btn btn-success btn-block">
+                                Select
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

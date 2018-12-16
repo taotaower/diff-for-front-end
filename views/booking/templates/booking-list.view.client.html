@@ -1,0 +1,52 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+
+
+<div class="container" ng-show="!vm.bookings.length">
+    <h2 align="center">We don't have any booking record for you.</h2>
+    <br>
+    <br>
+    <a href="#!/booking/new" class="btn btn-primary btn-block">Why not book one now?</a>
+</div>
+<div class="container-fluid" ng-show="vm.bookings.length">
+
+    <h2>Your Bookings</h2>
+
+    <div class="table-responsive" ng-show="vm.bookings">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td>Booking ID (10 chars)</td>
+                <td>Date of Booking</td>
+                <td>Departure from</td>
+                <td>Departure Time</td>
+                <td>Arrival At</td>
+                <td>Arrival Time</td>
+                <td>Flight Number</td>
+                <td>Price</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody ng-repeat="booking in vm.bookings" id="tbody">
+                <tr>
+                    <td><h5>{{booking._id.slice(-10)}}</h5></td>
+                    <td><h5>{{booking.dateCreated | date}}</h5></td>
+                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.departure_airport}}</div></h5></td>
+                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.departure_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
+                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.arrival_airport}}</div></h5></td>
+                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.arrival_scheduled_time | date:"HH:mm, MM/dd/yyyy"}}</div></h5></td>
+                    <td><h5><div ng-repeat="flight in vm.flights[$index]">{{flight.marketing_carrier}}{{flight.marketing_flight_number}}</div></h5></td>
+                    <td><h4>${{booking.price}}</h4></td>
+                    <td><div ng-repeat="flight in vm.flights[$index]">
+                        <a class="btn btn-success btn-block" href="#!/booking/{{booking._id}}">Edit</a></div></td>
+                    <td><div ng-repeat="flight in vm.flights[$index]"><a class="btn btn-primary btn-block"
+                           href="#!/operations/flightstatus/{{flight.marketing_carrier}}{{flight.marketing_flight_number}}/{{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}">Status</a></div></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

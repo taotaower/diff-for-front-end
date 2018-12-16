@@ -1,0 +1,75 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container">
+    <div id="Carousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="Carousel" data-slide-to="0" class="active"></li>
+            <li data-target="Carousel" data-slide-to="1"></li>
+            <li data-target="Carousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <a href="#!/booking/new"><img src="../../../project/images/home/First%20Slide.jpg" alt="Book Flights" class="img-responsive"></a>
+            </div>
+
+            <div class="item">
+                <a href="#!/booking"><img src="../../../project/images/home/Second%20Slide.jpg" alt="View Bookings" class="img-responsive"></a>
+            </div>
+
+            <div class="item">
+                <a href="#!/operations/flightstatus"><img src="../../../project/images/home/Third%20Slide.jpg" alt="Flight Status" class="img-responsive"></a>
+            </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <span class="left carousel-control" href="#Carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </span>
+        <span class="right carousel-control" href="#Carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </span>
+    </div>
+</div>
+
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img width="300" src="../../../project/images/home/New%20York.jpg" alt="...">
+                <div class="caption">
+                    <h3>From $524</h3>
+                    <h4>Frankfurt to New York (JFK)</h4>
+                    <p><a href="#!/booking/new/FRA/JFK" class="btn btn-primary" role="button">Book Now</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img width="300" src="../../../project/images/home/Shanghai.jpg" alt="...">
+                <div class="caption">
+                    <h3>From $660</h3>
+                    <h4>Frankfurt to Shanghai (PVG)</h4>
+                    <p><a href="#!/booking/new/FRA/PVG" class="btn btn-primary" role="button">Book Now</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img width="300" src="../../../project/images/home/Tokyo.jpg" alt="...">
+                <div class="caption">
+                    <h3>From $658</h3>
+                    <h4>Frankfurt to Tokyo (HND)</h4>
+                    <p><a href="#!/booking/new/FRA/HND" class="btn btn-primary" role="button">Book Now</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

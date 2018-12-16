@@ -1,0 +1,72 @@
+<div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+<div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
+
+    <div>
+        <label for="flightNumber">Flight Number</label>
+        <input type="text"
+               class="form-control"
+               ng-model="vm.flightNumber"
+               placeholder="eg: LH400"
+               id="flightNumber" required/>
+    </div>
+    <div>
+        <label for="date">Date</label>
+        <input type="date"
+               class="form-control"
+               ng-model="vm.date"
+               placeholder="eg: yyyy-MM-dd"
+               id="date" required/>
+    </div>
+
+    <div>
+        <a ng-click="vm.getFlightStatus(vm.flightNumber, vm.date)"
+           class="btn btn-block btn-primary">
+            Search
+        </a>
+    </div>
+
+<br/>
+<br/>
+<div ng-show="!vm.flight && !vm.error && vm.waiting" class="alert alert-info">{{vm.waiting}}</div>
+<div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+<div ng-show="vm.flight">
+    <h3>Flight Status of <span class="label label-primary">{{vm.oldFlightNumber}}</span></h3>
+    <div class="table-responsive">
+        <table class="table table-hover" id="table">
+            <thead>
+            <tr>
+                <td>Departure from</td>
+                <td>Scheduled Time of Departure</td>
+                <td>Actual Time of Departure</td>
+                <td>Gate Departure</td>
+                <td>Arrival At</td>
+                <td>Scheduled Time of Arrival</td>
+                <td>Actual Time of Arrival</td>
+                <td>Terminal Arrival</td>
+                <td>Flight Number</td>
+                <td>Flight Status</td>
+                <td></td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-class="{'cancelled': flight.FlightStatus.Definition === 'Flight Cancelled', 'departed': flight.FlightStatus.Definition === 'Flight Departed'}">
+                <td>{{vm.flight.Departure.AirportCode}}</td>
+                <td>{{vm.flight.Departure.ActualTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{vm.flight.Departure.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{vm.flight.Departure.Terminal.Gate}}</td>
+                <td>{{vm.flight.Arrival.AirportCode}}</td>
+                <td>{{vm.flight.Arrival.ActualTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{vm.flight.Arrival.ScheduledTimeLocal.DateTime.slice(-5)}}</td>
+                <td>{{vm.flight.Arrival.Terminal.Name}}</td>
+                <td><span class="label label-primary">{{vm.flight.OperatingCarrier.AirlineID}}{{vm.flight.OperatingCarrier.FlightNumber}}</span></td>
+                <td ng-show="vm.flight.FlightStatus.Definition !== 'No status'">{{vm.flight.FlightStatus.Definition.split(" ")[1]}}</td>
+                <td ng-show="vm.flight.FlightStatus.Definition === 'No status'">{{vm.flight.FlightStatus.Definition}}</td>
+                <td><a class="btn btn-primary btn-block"
+                       href="#!/operations/flightstatus/{{vm.flight.OperatingCarrier.AirlineID}}{{vm.flight.OperatingCarrier.FlightNumber}}/{{vm.dateFormat}}">More Info</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

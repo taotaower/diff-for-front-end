@@ -1,0 +1,54 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container-fluid" ng-show="!vm.schedules.length">
+    <h2 align="center">We don't have any schedule record for you.</h2>
+    <br>
+    <br>
+    <a href="#!/chat_with/admin" class="btn btn-primary btn-block">Contact Admin</a>
+</div>
+
+<div class="container" ng-show="vm.schedules.length">
+    <h3>Your schedules</h3>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="hidden-xs col-sm-2 col-lg-2">
+                    Schedule ID (10 chars)
+                </div>
+                <div class="col-xs-4 col-sm-2 col-lg-2">
+                    Route
+                </div>
+                <div class="hidden-xs col-sm-2 col-lg-2">
+                    Date of Flight
+                </div>
+                <div class="col-xs-4 col-sm-2 col-lg-2">
+                    Flight Number
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                </div>
+
+            </div>
+        </li>
+        <li ng-repeat="schedule in vm.schedules" class="list-group-item">
+            <div class="row">
+                <div class="hidden-xs col-sm-2 col-lg-2 ID">
+                    {{schedule._id.slice(-10)}}
+                </div>
+                <div class="col-xs-4 col-sm-2 col-lg-2">
+                    <div ng-repeat="flight in vm.flights[$index]">{{flight.departure_airport}}-{{flight.arrival_airport}}</div>
+                </div>
+                <div class="hidden-xs col-sm-2 col-lg-2">
+                    <div ng-repeat="flight in vm.flights[$index]">{{flight.departure_scheduled_time | date:'yyyy-MM-dd'}}</div>
+                </div>
+                <div class="col-xs-4 col-sm-2 col-lg-2">
+                    <div ng-repeat="flight in vm.flights[$index]">{{flight.marketing_carrier}}{{flight.marketing_flight_number}}</div>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    <a href="#!/schedule/{{schedule._id}}" class="btn btn-primary btn-block">Details</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

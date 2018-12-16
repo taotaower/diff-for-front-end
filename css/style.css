@@ -1,0 +1,174 @@
+input.form-control, textarea.form-control {
+    margin-bottom: 10px;
+}
+
+body {
+    padding-top: 140px;
+    padding-bottom: 70px;
+}
+
+.nav1 .navbar-header {
+    height: 60px;
+}
+
+/* no space -> AND */
+.row.navbar-header > .col-xs-8,
+.row.navbar-header > .col-sm-7.col-xs-8 {
+    padding-right: 0;
+}
+
+.nav1 .navbar-header,
+.navbar.navbar-default.navbar-fixed-bottom .navbar-header,
+.row.navbar-text {
+    width: 100%;
+}
+
+.navbar-brand,
+.navbar-header.navbar-brand,
+.row a,
+.col-lg-3.col-md-6.col-xs-9,
+.col-lg-3.visible-lg,
+.col-md-3.hidden-sm.hidden-xs {
+    white-space: nowrap;
+}
+
+#title {
+    color: #ebeef0;
+}
+
+.nav1,
+.navbar.navbar-default.navbar-fixed-bottom {
+    background-color: #f9ba00;
+    border-color: #f9ba00;
+}
+
+.navbar-default .navbar-brand,
+.navbar.navbar-default a,
+.navbar-text > .navbar-link,
+.container-fluid > .navbar-header {
+    color: #000066;
+}
+
+.row .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #f9ba00;
+    border-color: #f9ba00;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #f9ba00;
+    border-color: #f9ba00;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #e0a700;
+    border-color: #e0a700;
+}
+
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: #3b5998;
+}
+
+.btn-facebook:hover, .btn-facebook:focus, .btn-facebook:active, .btn-facebook.active, .open>.dropdown-toggle.btn-facebook {
+    color: #fff;
+    background-color: #355088;
+    border-color: #355088;
+}
+
+.btn-delete {
+    color: #fff;
+    background-color: #000066;
+    border-color: #000066;
+}
+
+.btn-delete:hover, .btn-delete:focus, .btn-delete:active, .btn-delete.active, .open>.dropdown-toggle.btn-delete {
+    color: #fff;
+    background-color: #0000a3;
+    border-color: #0000a3;
+}
+
+a {
+    color: #00235f;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+#star-alliance {
+    padding-top: 2px;
+}
+
+.glyphicon {
+    padding-top: 7px;
+    color: #00235f;
+}
+
+/*.glyphicon.glyphicon-plus {*/
+    /*padding-top: 5px;*/
+/*}*/
+
+.my-message .glyphicon,
+.others-message .glyphicon {
+    padding-top: 5px;
+    color: #ffffff;
+}
+
+td.my-message,
+td.others-message {
+    padding-top: 15px !important;
+}
+
+input.submitted.ng-invalid
+{
+    border:1px solid #f00;
+}
+
+.message-time {
+    color: darkgray;
+}
+
+.my-message {
+    background-color: #ffffff;
+}
+
+.others-message {
+    background-color: #ffffff;
+    /* used to be #fffaeb */
+}
+
+.table.table-striped {
+    /*overflow-x: scroll;*/
+}
+
+tr.cancelled {
+    background-color: #f2dede;
+}
+
+tr.departed {
+    background-color: #dff0d8;
+}
+
+.ID {
+    color: darkgray;
+}
+
+.edit {
+    background-color: #fffaeb;
+}
+
+.label-primary {
+    background-color: #000066;
+}

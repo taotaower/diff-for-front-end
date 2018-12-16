@@ -1,0 +1,50 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+    <div class="container-fluid">
+        <h1>Join Lufthansa</h1>
+
+        <label for="username">Username</label>
+        <input type="text"
+               id="username"
+               ng-model="vm.username"
+               ng-class="{submitted:vm.submitted1}"
+               class="form-control"
+               placeholder="e.g. Lufthansa" required/>
+        <div ng-show="vm.error1" class="alert alert-danger">
+            {{vm.error1}}
+        </div>
+
+        <label for="password">Password</label>
+        <input type="password"
+               id="password"
+               ng-model="vm.password"
+               ng-class="{submitted:vm.submitted2}"
+               class="form-control"
+               placeholder="e.g. LH2017password" required/>
+        <div ng-show="vm.error2" class="alert alert-danger">
+            {{vm.error2}}
+        </div>
+
+        <label for="password2">Verify Password</label>
+        <input type="password"
+               id="password2"
+               ng-model="vm.password2"
+               ng-class="{submitted:vm.submitted3}"
+               class="form-control"
+               placeholder="e.g. LH2017password" required/>
+        <div ng-show="vm.error3" class="alert alert-danger">
+            {{vm.error3}}
+        </div>
+        <div ng-show="vm.error4" class="alert alert-danger">
+            {{vm.error4}}
+        </div>
+
+        <a ng-click="vm._register(vm.username, vm.password, vm.password2)"
+           class="btn btn-primary btn-block">
+            Register
+        </a>
+        <a class="btn btn-danger  btn-block"
+           href="#!/login">Cancel</a>
+    </div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>

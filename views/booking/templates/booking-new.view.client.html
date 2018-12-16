@@ -1,0 +1,84 @@
+<div ng-include="'views/common/header.view.client.html'"></div>
+
+<div class="container">
+
+    <h2 ng-show="vm.other_username">Book flights for {{vm.other_username}}</h2>
+    <h2 ng-show="!vm.other_username">Book your flights</h2>
+
+
+    <div ng-show="vm.error1" class="alert alert-danger">{{vm.error1}}</div>
+    <div ng-show="vm.error2" class="alert alert-danger">{{vm.error2}}</div>
+    <div ng-show="vm.error3" class="alert alert-danger">{{vm.error3}}</div>
+
+        <div>
+            <label for="origin">Origin</label>
+            <input type="text"
+                   class="form-control"
+                   ng-model="vm.origin"
+                   placeholder="eg: FRA"
+                   id="origin"/>
+        </div>
+        <div>
+            <label for="destination">Destination</label>
+            <input type="text"
+                   class="form-control"
+                   ng-model="vm.destination"
+                   placeholder="eg: JFK"
+                   id="destination"/>
+        </div>
+        <div>
+            <label for="date">Date</label>
+            <input type="date"
+                   class="form-control"
+                   ng-model="vm.date"
+                   placeholder="eg: yyyy-MM-dd"
+                   id="date"/>
+        </div>
+
+        <div>
+            <a ng-click="vm.getAvailableFlights(vm.origin, vm.destination, vm.date)"
+               class="btn btn-block btn-primary">
+                Find Flights
+            </a>
+        </div>
+    <br>
+    <div ng-show="!vm.schedules && !vm.error && vm.waiting" class="alert alert-info">{{vm.waiting}}</div>
+    <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+    <h3 ng-show="vm.schedules">Available flights</h3>
+    <div class="table-responsive">
+        <table class="table table-hover" ng-show="vm.schedules">
+            <thead>
+            <tr>
+                <th>Origin</th>
+                <th>Departure Time</th>
+                <th>Destination</th>
+                <th>Arrival Time</th>
+                <th>Airlines</th>
+                <th>Flight Number</th>
+                <th>Duration</th>
+                <th>Aircraft</th>
+                <th>Lowest fare</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="schedule in vm.schedules">
+                <td><h5>{{schedule.Flight.Departure.AirportCode}}</h5></td>
+                <td><h5>{{schedule.Flight.Departure.ScheduledTimeLocal.DateTime.slice(-5)}}</h5></td>
+                <td><h5>{{schedule.Flight.Arrival.AirportCode}}</h5></td>
+                <td><h5>{{schedule.Flight.Arrival.ScheduledTimeLocal.DateTime.slice(-5)}}</h5></td>
+                <td><h5>{{schedule.Flight.MarketingCarrier.AirlineID}}</h5></td>
+                <td><h5>{{schedule.Flight.MarketingCarrier.FlightNumber}}</h5></td>
+                <td><h5>{{schedule.TotalJourney.Duration.slice(2)}}</h5></td>
+                <td><h5>{{schedule.Flight.Equipment.AircraftCode}}</h5></td>
+                <td><h4>${{schedule.price}}</h4></td>
+                <td><a ng-click="vm.createBooking(vm.uid, schedule)"
+                       class="btn btn-block btn-primary">Book Now</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div ng-include="'views/common/footer.view.client.html'"></div>
